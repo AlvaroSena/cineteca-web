@@ -1,6 +1,6 @@
 import logo from '../assets/logo.png'
 
-import { SearchIcon } from './Icons/SearchIcon'
+// import { SearchIcon } from './Icons/SearchIcon'
 
 export function Header() {
   return (
