@@ -1,17 +1,31 @@
-import movieCover from '../assets/movie-cover.jpg'
-
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react'
 import { CalendarIcon } from './Icons/CalendarIcon'
 import { CharIcon } from './Icons/CharIcon'
 import { CloseIcon } from './Icons/CloseIcon'
 import { PlayerIcon } from './Icons/PlayerIcon'
+import { useEffect, useState } from 'react'
+import { getMovie } from '../lib/get-movie'
+import { Movie } from '../types/Movie'
 
 interface MovieDialogProps {
   isOpen: boolean
   onClose: () => void
+  slug: string
+  dateRelease: Date
 }
 
-export function MovieDialog({ isOpen, onClose }: MovieDialogProps) {
+export function MovieDialog({
+  isOpen,
+  onClose,
+  slug,
+  dateRelease,
+}: MovieDialogProps) {
+  const [movie, setMovie] = useState<Movie>({} as Movie)
+
+  useEffect(() => {
+    getMovie(slug).then((data) => setMovie(data))
+  }, [])
+
   return (
     <Dialog className="relative z-10" open={isOpen} onClose={onClose}>
       <DialogBackdrop
@@ -28,7 +42,7 @@ export function MovieDialog({ isOpen, onClose }: MovieDialogProps) {
             <div className="bg-slate-900">
               <img
                 className="w-full h-72 object-cover"
-                src={movieCover}
+                src={movie.cover}
                 alt=""
               />
 
@@ -42,10 +56,10 @@ export function MovieDialog({ isOpen, onClose }: MovieDialogProps) {
               <div className="p-4">
                 <div className="flex flex-row items-center gap-2">
                   <h3 className="text-2xl font-semibold text-white">
-                    Oppenheimer
+                    {movie.title}
                   </h3>
                   <span className="block text-slate-500 text-sm">
-                    Drama/Thriller
+                    {movie.genre}
                   </span>
                 </div>
 
@@ -53,28 +67,31 @@ export function MovieDialog({ isOpen, onClose }: MovieDialogProps) {
                   <div className="flex flex-row items-center gap-2">
                     <CharIcon />
                     <span className="block text-slate-500 text-sm">
-                      Christopher Nolan
+                      {movie.Director?.name}
                     </span>
                   </div>
                   <div className="flex flex-row items-center gap-2">
                     <CalendarIcon />
-                    <span className="block text-slate-500 text-sm">2023</span>
+                    <span className="block text-slate-500 text-sm">
+                      {dateRelease.getFullYear()}
+                    </span>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 mt-3 gap-4">
-                  <a className="bg-slate-950 hover:bg-opacity-40 transition flex flex-row items-center justify-center h-11 rounded gap-2">
-                    <PlayerIcon /> Player 01
-                  </a>
-                  <a className="bg-slate-950 hover:bg-opacity-40 transition flex flex-row items-center justify-center h-11 rounded gap-2">
-                    <PlayerIcon /> Player 02
-                  </a>
-                  <a className="bg-slate-950 hover:bg-opacity-40 transition flex flex-row items-center justify-center h-11 rounded gap-2">
-                    <PlayerIcon /> Player 03
-                  </a>
-                  <a className="bg-slate-950 hover:bg-opacity-40 transition flex flex-row items-center justify-center h-11 rounded gap-2">
-                    <PlayerIcon /> Player 04
-                  </a>
+                  {movie.players?.map((player) => {
+                    return (
+                      <a
+                        key={player.id}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={player.videoURL}
+                        className="bg-slate-950 hover:bg-opacity-40 transition flex flex-row items-center justify-center h-11 rounded gap-2"
+                      >
+                        <PlayerIcon /> Player 01
+                      </a>
+                    )
+                  })}
                 </div>
               </div>
             </div>
