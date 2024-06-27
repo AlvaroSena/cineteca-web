@@ -14,6 +14,15 @@ import { ImageIcon } from './Icons/ImageIcon'
 import { genres } from '../types/genres'
 import { MagicWand } from './Icons/MagicWand'
 import { useState } from 'react'
+import { z } from 'zod'
+
+const createMovieFormSchema = z.object({
+  title: z.string().min(3),
+  cover: z.string().url(),
+  director: z.string().min(3),
+  dateRelease: z.date(),
+  genre: z.string().transform((value) => value.toUpperCase()),
+})
 
 export function MovieForm() {
   const [coverURL, setCoverURL] = useState('')
@@ -52,7 +61,7 @@ export function MovieForm() {
                     Escolher um arquivo
                   </button>
                   <span className="block text-sm text-slate-500">
-                    O tamanho máximo por arquivo é de 5bm
+                    O tamanho máximo por arquivo é de 5mb
                   </span>
                 </TabPanel>
                 <TabPanel>
