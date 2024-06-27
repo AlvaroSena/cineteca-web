@@ -67,7 +67,7 @@ export function MovieDialog({
                   <div className="flex flex-row items-center gap-2">
                     <CharIcon />
                     <span className="block text-slate-500 text-sm">
-                      {movie.Director?.name}
+                      {movie.director}
                     </span>
                   </div>
                   <div className="flex flex-row items-center gap-2">

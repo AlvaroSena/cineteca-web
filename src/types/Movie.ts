@@ -1,4 +1,3 @@
-import { Director } from './Director'
 import { Player } from './Player'
 
 export interface Movie {
@@ -7,8 +6,7 @@ export interface Movie {
   cover?: string
   slug: string
   dateRelease: string
-  directorId: string
+  director: string
   genre: string
   players: Player[]
-  Director: Director
 }
