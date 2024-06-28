@@ -1,26 +1,38 @@
 import logo from '../assets/logo.png'
 
-// import { useSearchParams } from 'react-router-dom'
-// import { SearchIcon } from './Icons/SearchIcon'
-// import { Input } from '@headlessui/react'
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react'
+import { genres } from '../types/genres'
 
 export function Header() {
-  // const [, setSearchParams] = useSearchParams()
-
-  // function onFocusOut(event: any) {
-  //   setSearchParams((state) => {
-  //     state.delete('genre')
-  //     state.set('title', event.target.value)
-  //     return state
-  //   })
-  // }
-
   return (
     <header className="h-20">
       <div className="max-w-[1120px] mx-4 lg:mx-auto h-20 flex flex-row items-center justify-between">
-        <a href="/">
-          <img className="max-w-40 w-full" src={logo} alt="" />
-        </a>
+        <nav className="flex flex-row items-center">
+          <a href="/" className="mr-6">
+            <img className="max-w-40 w-full" src={logo} alt="" />
+          </a>
+          <Popover className="relative">
+            <PopoverButton className="text-slate-100 hover:text-slate-300 transition">
+              Gêneros
+            </PopoverButton>
+            <PopoverPanel
+              anchor="bottom"
+              className="grid grid-cols-4 gap-3 border border-slate-700 data-[hover]:shadow bg-slate-800 p-4 rounded-lg"
+            >
+              {genres.map((item, index) => {
+                return (
+                  <a
+                    key={index}
+                    href={`/genre/${item}`}
+                    className="text-slate-500 hover:text-slate-300 transition"
+                  >
+                    {item}
+                  </a>
+                )
+              })}
+            </PopoverPanel>
+          </Popover>
+        </nav>
         {/* <div className="border border-slate-800 data-[hover]:shadow flex flex-row items-center bg-slate-900 p-2 rounded-lg">
           <div className="mx-3">
             <SearchIcon />

@@ -234,6 +234,7 @@ export function MovieForm() {
             })}
           </div>
           <button
+            type="button"
             onClick={addPlayer}
             className="w-12 flex items-center justify-center bg-pink-600 hover:bg-pink-800 transition h-11 rounded-md gap-2 font-semibold text-slate-950"
           >
